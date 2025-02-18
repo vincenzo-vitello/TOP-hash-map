@@ -15,7 +15,7 @@ class HashMap {
      return hashCode  % this.size;;
     }
     
-    setItem(key, value) {
+    set(key, value) {
       let index = this.hash(key);
       
       if(!this.buckets[index]) this.buckets[index] = [];
@@ -23,22 +23,64 @@ class HashMap {
       this.buckets[index].push([key, value])
     }
     
-    getItem(key) {
-      let index = this.hash(key);
+    get(key) {
+        let index = this.hash(key);
       
-      if(!this.buckets[index]) console.log("There is nothing for this key");
+        if(!this.buckets[index]) { 
+        console.log("There is nothing for this key");
+        return
+        }
       
-      for(let bucket of this.buckets[index]) {
-        if(bucket[0] === key) return bucket[1];
-      }
+        for(let bucket of this.buckets[index]) {
+            if(bucket[0] === key) return bucket[1];
+        }
     }
-  }
+
+    has(key) {
+        let index = this.hash(key);
+
+        if(!this.buckets[index]) return false;
+
+        for(let bucket of this.buckets[index]) {
+            if(bucket[0] === key) return true;
+        }
+        return false
+    }
+
+    remove(key) {
+        let index = this.hash(key);
+        if (!this.buckets[index]) return false;
+
+        for (let i = 0; i < this.buckets[index].length; i++) {
+            if (this.buckets[index][i][0] === key) {
+                this.buckets[index].splice(i, 1);
+                if (this.buckets[index].length === 0) this.buckets[index] = undefined;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    length() {
+        let bucketsLength = 0;
+        for(let i = 0; i < this.buckets.length; i++){
+            if(this.buckets[i]) {
+                bucketsLength++
+            }
+        }
+        return bucketsLength
+    }
+}
   
-  const myMap = new HashMap()
+const myMap = new HashMap()
+
+myMap.set('bk001', "Antifragile");
+myMap.set('bk002', "Atomic Habits");
+myMap.set('bk003', "Deep Work");
   
-  myMap.setItem('bk001', "Antifragile");
-  myMap.setItem('bk002', "Atomic Habits");
-  myMap.setItem('bk003', "Deep Work");
   
-  
-  console.log(myMap.getItem('bk001'))
+console.log("book1 is: ", myMap.get('bk001'))
+console.log("has book1: ", myMap.has('bk001'))
+myMap.remove('bk001')
+console.log("has book1: ", myMap.has('bk001'))
+console.log("Number of stored keys: ", myMap.length())
