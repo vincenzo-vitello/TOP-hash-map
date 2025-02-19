@@ -70,6 +70,45 @@ class HashMap {
         }
         return bucketsLength
     }
+
+    clear() {
+        for(let i = 0; i < this.buckets.length; i++){
+            if(this.buckets[i]){
+                this.buckets[i] = undefined
+            }
+        }
+    }
+
+    keys(){
+        let keys = []
+        for(let i = 0; i < this.buckets.length; i++){
+            if(this.buckets[i]){
+                keys.push(this.buckets[i][0][0])
+            }
+        }
+        return keys
+    }
+    values(){
+        let values = []
+        for(let i = 0; i < this.buckets.length; i++){
+            if(this.buckets[i]){
+                values.push(this.buckets[i][0][1])
+            }
+        }
+        return values
+    }
+    entries() {
+        let entries = []
+        for(let i = 0; i < this.buckets.length; i++){
+            if(this.buckets[i]){
+                let entry = []
+                entry.push(this.buckets[i][0][0])
+                entry.push(this.buckets[i][0][1])
+                entries.push(entry)
+            }
+        }
+        return entries
+    }
 }
   
 const myMap = new HashMap()
@@ -84,3 +123,17 @@ console.log("has book1: ", myMap.has('bk001'))
 myMap.remove('bk001')
 console.log("has book1: ", myMap.has('bk001'))
 console.log("Number of stored keys: ", myMap.length())
+console.log('map is clear')
+myMap.clear()
+console.log("has book1: ",myMap.has('bk001'))
+console.log("has book2: ",myMap.has('bk002'))
+console.log("has book3: ",myMap.has('bk003'))
+console.log('adding books')
+myMap.set('bk001', "Black swan")
+myMap.set('bk002', "Fooled by randomness")
+myMap.set('bk003', "Antifragile")
+console.log("has book1: ", myMap.has('bk001'))
+console.log("has book2: ", myMap.has('bk002'))
+console.log('All keys are: ', myMap.keys())
+console.log('All values are: ', myMap.values())
+console.log('All entries are: ', myMap.entries())
